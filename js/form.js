@@ -50,18 +50,18 @@ const resetPreview = () => {
 };
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && !isTextFieldFocused()) {
+  if (isEscapeKey(evt) && !isTextFieldFocused() && !document.querySelector('.error')) {
     evt.preventDefault();
     closeUploadForm();
   }
 }
 
-function openUploadForm() {
+const openUploadForm = () => {
   updatePreview();
   overlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-}
+};
 
 function closeUploadForm() {
   form.reset();

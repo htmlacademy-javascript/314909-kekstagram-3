@@ -3,6 +3,12 @@ const MAX_HASHTAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 140;
 const HASHTAG_REGEXP = new RegExp(`^#[\\p{L}\\p{N}]{1,${MAX_HASHTAG_LENGTH - 1}}$`, 'u');
 
+const HashtagValidationPriority = {
+  PATTERN: 3,
+  UNIQUE: 2,
+  COUNT: 1,
+};
+
 const form = document.querySelector('.img-upload__form');
 const hashtagsField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
@@ -30,21 +36,21 @@ pristine.addValidator(
   hashtagsField,
   validateHashtagsPattern,
   `Хэштег должен начинаться с # и состоять из букв и цифр длиной не более ${MAX_HASHTAG_LENGTH} символов`,
-  3,
+  HashtagValidationPriority.PATTERN,
 );
 
 pristine.addValidator(
   hashtagsField,
   validateHashtagsUnique,
   'Хэштеги не должны повторяться',
-  2,
+  HashtagValidationPriority.UNIQUE,
 );
 
 pristine.addValidator(
   hashtagsField,
   validateHashtagsCount,
   `Нельзя указать больше ${MAX_HASHTAGS_COUNT} хэштегов`,
-  1,
+  HashtagValidationPriority.COUNT,
 );
 
 pristine.addValidator(

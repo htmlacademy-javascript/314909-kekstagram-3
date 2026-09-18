@@ -1,6 +1,7 @@
 import { isEscapeKey } from './util.js';
 
 const COMMENTS_STEP = 5;
+const COMMENT_AVATAR_SIZE = 35;
 
 const bigPictureElement = document.querySelector('.big-picture');
 const cancelButton = bigPictureElement.querySelector('.big-picture__cancel');
@@ -23,8 +24,8 @@ const createCommentElement = ({avatar, name, message}) => {
   pictureElement.classList.add('social__picture');
   pictureElement.src = avatar;
   pictureElement.alt = name;
-  pictureElement.width = 35;
-  pictureElement.height = 35;
+  pictureElement.width = COMMENT_AVATAR_SIZE;
+  pictureElement.height = COMMENT_AVATAR_SIZE;
 
   const textElement = document.createElement('p');
   textElement.classList.add('social__text');

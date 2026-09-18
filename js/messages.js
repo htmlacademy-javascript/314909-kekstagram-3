@@ -16,11 +16,11 @@ const showMessage = (template, buttonSelector) => {
     }
   }
 
-  function onMessageClick(evt) {
+  const onMessageClick = (evt) => {
     if (evt.target === messageElement || evt.target.closest(buttonSelector)) {
       closeMessage();
     }
-  }
+  };
 
   function closeMessage() {
     messageElement.remove();

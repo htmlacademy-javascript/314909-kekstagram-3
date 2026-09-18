@@ -9,7 +9,9 @@ export const getData = () => fetch(GET_DATA_URL).then((response) => {
   return response.json();
 });
 
-export const sendData = (body) => fetch(BASE_URL, {
+const POST_DATA_URL = `${BASE_URL}/`;
+
+export const sendData = (body) => fetch(POST_DATA_URL, {
   method: 'POST',
   body,
 }).then((response) => {

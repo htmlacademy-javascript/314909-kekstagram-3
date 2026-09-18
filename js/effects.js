@@ -39,7 +39,7 @@ const showSlider = () => {
 };
 
 sliderElement.noUiSlider.on('update', (values, handle) => {
-  const value = values[handle];
+  const value = Number(values[handle]);
   effectLevelInput.value = value;
 
   if (currentEffect === Effect.NONE) {
