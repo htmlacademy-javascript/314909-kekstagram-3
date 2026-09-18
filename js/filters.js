@@ -17,15 +17,15 @@ const filterButtons = filtersForm.querySelectorAll('.img-filters__button');
 let sourcePhotos = [];
 let currentFilter = FilterType.DEFAULT;
 
-const shuffleArray = (array) => {
-  const shuffled = [...array];
+const shuffleArray = (items) => {
+  const shuffledItems = [...items];
 
-  for (let i = shuffled.length - 1; i > 0; i--) {
+  for (let i = shuffledItems.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [shuffledItems[i], shuffledItems[j]] = [shuffledItems[j], shuffledItems[i]];
   }
 
-  return shuffled;
+  return shuffledItems;
 };
 
 const getFilteredPhotos = () => {
@@ -68,5 +68,5 @@ filtersForm.addEventListener('click', onFilterButtonClick);
 export const initFilters = (photos) => {
   sourcePhotos = photos;
   filtersContainer.classList.remove('img-filters--inactive');
-  renderFilteredPhotos();
+  renderThumbnails(sourcePhotos);
 };
