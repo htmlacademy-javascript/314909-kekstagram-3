@@ -3,6 +3,9 @@ import { debounce } from './util.js';
 
 const RANDOM_PHOTOS_COUNT = 10;
 const RENDER_DELAY = 500;
+const FILTER_BUTTON_CLASS = 'img-filters__button';
+const FILTER_BUTTON_ACTIVE_CLASS = 'img-filters__button--active';
+const FILTER_ID_PREFIX = 'filter-';
 
 const FilterType = {
   DEFAULT: 'default',
@@ -10,10 +13,10 @@ const FilterType = {
   DISCUSSED: 'discussed',
 };
 
-const filtersContainer = document.querySelector('.img-filters');
-const filtersForm = document.querySelector('.img-filters__form');
-const filterButtons = filtersForm.querySelectorAll('.img-filters__button');
+const filtersContainerElement = document.querySelector('.img-filters');
+const filtersFormElement = document.querySelector('.img-filters__form');
 
+let activeFilterButtonElement = filtersFormElement.querySelector(`.${FILTER_BUTTON_ACTIVE_CLASS}`);
 let sourcePhotos = [];
 let currentFilter = FilterType.DEFAULT;
 
@@ -45,28 +48,28 @@ const renderFilteredPhotos = () => {
 
 const debouncedRenderFilteredPhotos = debounce(renderFilteredPhotos, RENDER_DELAY);
 
-const setActiveButton = (filterType) => {
-  filterButtons.forEach((button) => {
-    button.classList.toggle('img-filters__button--active', button.id === `filter-${filterType}`);
-  });
+const setActiveButton = (buttonElement) => {
+  activeFilterButtonElement.classList.remove(FILTER_BUTTON_ACTIVE_CLASS);
+  buttonElement.classList.add(FILTER_BUTTON_ACTIVE_CLASS);
+  activeFilterButtonElement = buttonElement;
 };
 
-const onFilterButtonClick = (evt) => {
-  const {target} = evt;
+const onFiltersFormClick = (evt) => {
+  const buttonElement = evt.target;
 
-  if (!target.classList.contains('img-filters__button') || target.id === `filter-${currentFilter}`) {
+  if (!buttonElement.classList.contains(FILTER_BUTTON_CLASS) || buttonElement === activeFilterButtonElement) {
     return;
   }
 
-  currentFilter = target.id.replace('filter-', '');
-  setActiveButton(currentFilter);
+  currentFilter = buttonElement.id.replace(FILTER_ID_PREFIX, '');
+  setActiveButton(buttonElement);
   debouncedRenderFilteredPhotos();
 };
 
-filtersForm.addEventListener('click', onFilterButtonClick);
+filtersFormElement.addEventListener('click', onFiltersFormClick);
 
 export const initFilters = (photos) => {
   sourcePhotos = photos;
-  filtersContainer.classList.remove('img-filters--inactive');
+  filtersContainerElement.classList.remove('img-filters--inactive');
   renderThumbnails(sourcePhotos);
 };

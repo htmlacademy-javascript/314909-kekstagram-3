@@ -4,7 +4,7 @@ const COMMENTS_STEP = 5;
 const COMMENT_AVATAR_SIZE = 35;
 
 const bigPictureElement = document.querySelector('.big-picture');
-const cancelButton = bigPictureElement.querySelector('.big-picture__cancel');
+const cancelButtonElement = bigPictureElement.querySelector('.big-picture__cancel');
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 const commentsListElement = bigPictureElement.querySelector('.social__comments');
 const captionElement = bigPictureElement.querySelector('.social__caption');
@@ -81,5 +81,13 @@ export const openBigPicture = ({url, description, likes, comments: photoComments
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-cancelButton.addEventListener('click', closeBigPicture);
-commentsLoaderElement.addEventListener('click', renderNextComments);
+const onBigPictureCancelClick = () => {
+  closeBigPicture();
+};
+
+const onCommentsLoaderClick = () => {
+  renderNextComments();
+};
+
+cancelButtonElement.addEventListener('click', onBigPictureCancelClick);
+commentsLoaderElement.addEventListener('click', onCommentsLoaderClick);

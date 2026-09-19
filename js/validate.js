@@ -9,11 +9,11 @@ const HashtagValidationPriority = {
   COUNT: 1,
 };
 
-const form = document.querySelector('.img-upload__form');
-const hashtagsField = form.querySelector('.text__hashtags');
-const commentField = form.querySelector('.text__description');
+const formElement = document.querySelector('.img-upload__form');
+const hashtagsFieldElement = formElement.querySelector('.text__hashtags');
+const commentFieldElement = formElement.querySelector('.text__description');
 
-export const pristine = new Pristine(form, {
+export const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
@@ -33,28 +33,28 @@ const validateHashtagsUnique = (value) => {
 const validateCommentLength = (value) => value.length <= MAX_COMMENT_LENGTH;
 
 pristine.addValidator(
-  hashtagsField,
+  hashtagsFieldElement,
   validateHashtagsPattern,
   `Хэштег должен начинаться с # и состоять из букв и цифр длиной не более ${MAX_HASHTAG_LENGTH} символов`,
   HashtagValidationPriority.PATTERN,
 );
 
 pristine.addValidator(
-  hashtagsField,
+  hashtagsFieldElement,
   validateHashtagsUnique,
   'Хэштеги не должны повторяться',
   HashtagValidationPriority.UNIQUE,
 );
 
 pristine.addValidator(
-  hashtagsField,
+  hashtagsFieldElement,
   validateHashtagsCount,
   `Нельзя указать больше ${MAX_HASHTAGS_COUNT} хэштегов`,
   HashtagValidationPriority.COUNT,
 );
 
 pristine.addValidator(
-  commentField,
+  commentFieldElement,
   validateCommentLength,
   `Длина комментария не может составлять больше ${MAX_COMMENT_LENGTH} символов`,
 );

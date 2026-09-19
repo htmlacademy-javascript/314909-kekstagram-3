@@ -15,11 +15,11 @@ const EFFECTS = {
   [Effect.HEAT]: {min: 1, max: 3, step: 0.1, filterName: 'brightness', unit: ''},
 };
 
-const effectsList = document.querySelector('.effects__list');
-const effectLevelContainer = document.querySelector('.img-upload__effect-level');
-const effectLevelInput = document.querySelector('.effect-level__value');
+const effectsListElement = document.querySelector('.effects__list');
+const effectLevelContainerElement = document.querySelector('.img-upload__effect-level');
+const effectLevelInputElement = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.effect-level__slider');
-const previewImage = document.querySelector('.img-upload__preview img');
+const previewImageElement = document.querySelector('.img-upload__preview img');
 
 let currentEffect = Effect.NONE;
 
@@ -31,31 +31,31 @@ noUiSlider.create(sliderElement, {
 });
 
 const hideSlider = () => {
-  effectLevelContainer.classList.add('hidden');
+  effectLevelContainerElement.classList.add('hidden');
 };
 
 const showSlider = () => {
-  effectLevelContainer.classList.remove('hidden');
+  effectLevelContainerElement.classList.remove('hidden');
 };
 
 sliderElement.noUiSlider.on('update', (values, handle) => {
   const value = Number(values[handle]);
-  effectLevelInput.value = value;
+  effectLevelInputElement.value = value;
 
   if (currentEffect === Effect.NONE) {
-    previewImage.style.filter = '';
+    previewImageElement.style.filter = '';
     return;
   }
 
   const {filterName, unit} = EFFECTS[currentEffect];
-  previewImage.style.filter = `${filterName}(${value}${unit})`;
+  previewImageElement.style.filter = `${filterName}(${value}${unit})`;
 });
 
 const updateSlider = () => {
   if (currentEffect === Effect.NONE) {
     hideSlider();
-    previewImage.style.filter = '';
-    effectLevelInput.value = '';
+    previewImageElement.style.filter = '';
+    effectLevelInputElement.value = '';
     return;
   }
 
@@ -84,6 +84,6 @@ export const resetEffect = () => {
   updateSlider();
 };
 
-effectsList.addEventListener('change', onEffectsListChange);
+effectsListElement.addEventListener('change', onEffectsListChange);
 
 hideSlider();

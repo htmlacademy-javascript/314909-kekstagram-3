@@ -7,32 +7,32 @@ import { showSuccessMessage, showErrorMessage } from './messages.js';
 
 const DEFAULT_PREVIEW_SRC = 'img/upload-default-image.jpg';
 
-const form = document.querySelector('.img-upload__form');
-const fileField = form.querySelector('#upload-file');
-const overlay = form.querySelector('.img-upload__overlay');
-const cancelButton = form.querySelector('.img-upload__cancel');
-const hashtagsField = form.querySelector('.text__hashtags');
-const commentField = form.querySelector('.text__description');
-const submitButton = form.querySelector('.img-upload__submit');
-const previewImage = form.querySelector('.img-upload__preview img');
-const effectsPreviews = form.querySelectorAll('.effects__preview');
+const formElement = document.querySelector('.img-upload__form');
+const fileFieldElement = formElement.querySelector('#upload-file');
+const overlayElement = formElement.querySelector('.img-upload__overlay');
+const cancelButtonElement = formElement.querySelector('.img-upload__cancel');
+const hashtagsFieldElement = formElement.querySelector('.text__hashtags');
+const commentFieldElement = formElement.querySelector('.text__description');
+const submitButtonElement = formElement.querySelector('.img-upload__submit');
+const previewImageElement = formElement.querySelector('.img-upload__preview img');
+const effectPreviewElements = formElement.querySelectorAll('.effects__preview');
 
 let currentObjectUrl = '';
 
-const isTextFieldFocused = () => document.activeElement === hashtagsField || document.activeElement === commentField;
+const isTextFieldFocused = () => document.activeElement === hashtagsFieldElement || document.activeElement === commentFieldElement;
 
 const updatePreview = () => {
-  const [file] = fileField.files;
+  const [file] = fileFieldElement.files;
 
   if (!file) {
     return;
   }
 
   currentObjectUrl = URL.createObjectURL(file);
-  previewImage.src = currentObjectUrl;
+  previewImageElement.src = currentObjectUrl;
 
-  effectsPreviews.forEach((preview) => {
-    preview.style.backgroundImage = `url(${currentObjectUrl})`;
+  effectPreviewElements.forEach((previewElement) => {
+    previewElement.style.backgroundImage = `url(${currentObjectUrl})`;
   });
 };
 
@@ -42,10 +42,10 @@ const resetPreview = () => {
     currentObjectUrl = '';
   }
 
-  previewImage.src = DEFAULT_PREVIEW_SRC;
+  previewImageElement.src = DEFAULT_PREVIEW_SRC;
 
-  effectsPreviews.forEach((preview) => {
-    preview.style.backgroundImage = '';
+  effectPreviewElements.forEach((previewElement) => {
+    previewElement.style.backgroundImage = '';
   });
 };
 
@@ -58,28 +58,28 @@ function onDocumentKeydown(evt) {
 
 const openUploadForm = () => {
   updatePreview();
-  overlay.classList.remove('hidden');
+  overlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
 function closeUploadForm() {
-  form.reset();
+  formElement.reset();
   pristine.reset();
   resetScale();
   resetEffect();
   resetPreview();
-  overlay.classList.add('hidden');
+  overlayElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
 const blockSubmitButton = () => {
-  submitButton.disabled = true;
+  submitButtonElement.disabled = true;
 };
 
 const unblockSubmitButton = () => {
-  submitButton.disabled = false;
+  submitButtonElement.disabled = false;
 };
 
 const onFormSubmit = (evt) => {
@@ -91,7 +91,7 @@ const onFormSubmit = (evt) => {
 
   blockSubmitButton();
 
-  sendData(new FormData(form))
+  sendData(new FormData(formElement))
     .then(() => {
       closeUploadForm();
       showSuccessMessage();
@@ -100,6 +100,14 @@ const onFormSubmit = (evt) => {
     .finally(unblockSubmitButton);
 };
 
-fileField.addEventListener('change', openUploadForm);
-cancelButton.addEventListener('click', closeUploadForm);
-form.addEventListener('submit', onFormSubmit);
+const onFileFieldChange = () => {
+  openUploadForm();
+};
+
+const onCancelButtonClick = () => {
+  closeUploadForm();
+};
+
+fileFieldElement.addEventListener('change', onFileFieldChange);
+cancelButtonElement.addEventListener('click', onCancelButtonClick);
+formElement.addEventListener('submit', onFormSubmit);
